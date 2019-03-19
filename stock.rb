@@ -24,5 +24,5 @@ params = {
 	'date.gte': start_date,
 	'date.lte': end_date
 }
-api_data = Quandl.get_api_data(params)
-puts api_data
+result = Quandl.get_api_data(params)
+puts result.print_closing_prices

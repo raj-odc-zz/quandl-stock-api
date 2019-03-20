@@ -1,11 +1,14 @@
 require_relative './../utils'
 require_relative './rate_of_return'
+require_relative './draw_down'
 
 module Quandl
   # Represents a result from the Quandl API
   class Result
 
     include Utils
+
+    # Struct will be used to split the data from the Quandl API with methods described below
 
     Row = Struct.new(:ticker, :date, :open, :high, :low, :close, :volume, :ex_dividend, :split_ratio, :adj_open, :adj_high, :adj_low, :adj_close, :adj_volume, :draw_down)
 
@@ -25,19 +28,31 @@ module Quandl
       rate.get_formatted_string
     end
 
+    def print_max_drawdown
+      Quandl::DrawDown.get_max_drawdown(response)
+    end
+
+    def print_first_n_drawdown
+      Quandl::DrawDown.get_first_n_drawdown(response)
+    end
+
     private
 
     def parsed_response(response)
+
       parsed_result = []
-      if response && response['datatable'] && response['datatable']['data'] 
-        response['datatable']['data'].reverse.each do |data|
-          parsed_object = Quandl::Result::Row.new(*data)
-          parsed_object[:draw_down] = calculate_drawdown(parsed_object.high, parsed_object.low)
-          parsed_result << parsed_object
-        end
+      response['datatable']['data'].reverse.each do |data|
+        struct_object = process_rows(data)
+        parsed_result << struct_object
       end
 
       parsed_result
+    end
+
+    def process_rows(data)
+      struct_object = Quandl::Result::Row.new(*data)
+      struct_object[:draw_down] = calculate_drawdown(struct_object.high, struct_object.low)
+      struct_object
     end
 
     def format_closing_data(price_data)

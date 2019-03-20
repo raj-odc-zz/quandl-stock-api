@@ -13,8 +13,8 @@ require 'date'
 require 'pry'
 
 
-puts start_date = Date.parse(start_date).strftime("%Y-%m-%d")
-puts end_date = Date.parse(end_date).strftime("%Y-%m-%d")
+start_date = Date.parse(start_date).strftime("%Y-%m-%d")
+end_date = Date.parse(end_date).strftime("%Y-%m-%d")
 
 require_relative 'lib/quandl'
 
@@ -24,6 +24,11 @@ params = {
 	'date.gte': start_date,
 	'date.lte': end_date
 }
-result = Quandl.get_api_data(params)
+api_response = Quandl::Api::V3::Client.request_api(params)
+result = Quandl::Result.new(api_response)
 puts result.print_closing_prices
+puts result.print_first_n_drawdown
+puts result.print_max_drawdown
+puts ''
 puts result.print_rate_of_return
+puts ''

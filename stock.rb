@@ -23,14 +23,25 @@ begin
     'date.gte': start_date,
     'date.lte': end_date
   }
-  api_response = Quandl::Api::V3::Client.request_api(params)
+  api_response = Quandl.get_api_data(params)
   result = Quandl::Result.new(api_response) if api_response
-  puts result.print_closing_prices
-  puts result.print_first_n_drawdown
-  puts result.print_max_drawdown
-  puts ''
-  puts result.print_rate_of_return
-  puts ''
+  messages = []
+  puts messages << result.print_closing_prices
+  puts messages << result.print_first_n_drawdown
+  puts messages << result.print_max_drawdown
+  puts messages << result.print_rate_of_return
+
+  puts "\nWould you like to share it by E-mail or None? [email/none]"
+  share = STDIN.gets.chomp
+  case share
+    when 'email'
+      puts "\nWho should we send the e-mail to?"
+      email = STDIN.gets.chomp
+      Quandl.send_email(email, messages, params['ticker'], start_date, end_date)
+      puts 'Kindly install mailcatcher and open url `http://127.0.0.1:1080/`'
+    end
+  puts 'Thank you for using the system'
+
 rescue => error
   puts "Please check your inputs we got error as `#{error}`"
 end

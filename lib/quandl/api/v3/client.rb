@@ -10,10 +10,9 @@ module Quandl
           def request_api(params = nil)
             raise 'params should not be empty' unless params
 
-            response = HTTParty.get(build_url(params))
-            return response if response.success?
+            result = HTTParty.get(build_url(params))
 
-            raise 'Api error', "Code: #{response.code}, response: #{response}"
+            print_result(result)
           end
 
           private
@@ -21,6 +20,14 @@ module Quandl
           def build_url(params)
             query_string = URI.encode_www_form(params)
             API_ENDPOINT + query_string
+          end
+
+          def print_result(result)
+            raise result['quandl_error']['message'] if result['quandl_error']
+
+            raise 'Data not found' if result.success? && result['datatable']['data'].empty?
+
+            result
           end
         end
       end

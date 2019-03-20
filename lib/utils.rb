@@ -3,10 +3,6 @@ module Utils
     Date.parse(date_string).strftime("%d.%m.%y")
   end
 
-  def calculate_rate_of_return(start_value, end_value)
-    (end_value - start_value) / start_value
-  end
-
   def format_percentage_value(rate)
     (rate * 100).round(1)
   end

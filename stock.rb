@@ -26,3 +26,4 @@ params = {
 }
 result = Quandl.get_api_data(params)
 puts result.print_closing_prices
+puts result.print_rate_of_return

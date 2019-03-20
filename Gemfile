@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rspec'
-gem 'vcr'
+gem 'httparty'
 gem 'pry'
-gem "httparty"  
+gem 'rspec'
+gem 'rubocop', '~> 0.66.0'
+gem 'rubycritic'
+gem 'vcr'

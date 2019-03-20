@@ -1,7 +1,6 @@
-
 if ARGV.empty? || ENV['API_KEY'].nil?
-	puts "Please provide the valid input"
-	exit
+  puts 'Please provide the valid input'
+  exit
 end
 
 quandl_api_key = ENV['API_KEY']
@@ -12,17 +11,16 @@ start_date, end_date = date_range_string.split('-')
 require 'date'
 require 'pry'
 
-
-start_date = Date.parse(start_date).strftime("%Y-%m-%d")
-end_date = Date.parse(end_date).strftime("%Y-%m-%d")
+start_date = Date.parse(start_date).strftime('%Y-%m-%d')
+end_date = Date.parse(end_date).strftime('%Y-%m-%d')
 
 require_relative 'lib/quandl'
 
 params = {
-	api_key: quandl_api_key,
-	ticker: stock_name,
-	'date.gte': start_date,
-	'date.lte': end_date
+  api_key: quandl_api_key,
+  ticker: stock_name,
+  'date.gte': start_date,
+  'date.lte': end_date
 }
 api_response = Quandl::Api::V3::Client.request_api(params)
 result = Quandl::Result.new(api_response)

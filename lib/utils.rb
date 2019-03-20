@@ -1,9 +1,7 @@
+# Helper used to define some common methods to reuse in the project
 module Utils
-   
-  # Helper used to define some common methods to reuse in the project
-
-	def format_date(date_string)
-    Date.parse(date_string).strftime("%d.%m.%y")
+  def format_date(date_string)
+    Date.parse(date_string).strftime('%d.%m.%y')
   end
 
   def format_percentage_value(rate)
@@ -15,6 +13,6 @@ module Utils
   end
 
   def calculate_drawdown(high, low)
-    format_percentage_value((low-high)/low)
+    format_percentage_value((low - high) / low)
   end
 end

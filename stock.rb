@@ -39,7 +39,13 @@ begin
   when 'email'
     puts "\nWho should we send the e-mail to?"
     email = STDIN.gets.chomp
-    Quandl.send_email(email, messages, params['ticker'], start_date, end_date)
+    Quandl.send_email({
+      email: email,
+      messages: messages,
+      stock: stock_name,
+      start_date: start_date,
+      end_date: end_date
+    })
     puts 'Kindly start mailcatcher and open url `http://127.0.0.1:1080/`'
   end
   puts 'Thank you for using the system'

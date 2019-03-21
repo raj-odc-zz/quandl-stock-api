@@ -12,18 +12,18 @@ module Quandl
     Quandl::Api::V3::Client.request_api(params)
   end
 
-  def send_email(email, messages, stock, start_date, end_date)
+  def send_email(params)
     Mail.defaults do
       delivery_method :smtp, address: "localhost", port: 1025
     end
 
-    subject = "Stock Information - #{stock} between #{format_date(start_date)}"\
-      " and #{format_date(end_date)}"
+    subject = "Stock Information - #{params[:stock]} between #{format_date(params[:start_date])}"\
+      " and #{format_date(params[:end_date])}"
 
-    messages = add_mail_message(messages).join("\n")
+    messages = add_mail_message(params[:messages]).join("\n")
 
     Mail.deliver do
-      to email
+      to params[:email]
       from 'no-reply@test.com'
       subject subject
 
@@ -34,11 +34,8 @@ module Quandl
   end
 
   def add_mail_message(messages)
-    messages.unshift('Please find the following information for given stock')
-    messages.unshift('Hi,')
-    messages << ''
-    messages << ''
-    messages << 'Regards,'
-    messages << 'Team Quandl'
+    first_message = ['Hi,', 'Please find the following information for given stock']
+    final_message = ['', '', 'Regards,', 'Team Quandl']
+    first_message + messages + final_message
   end
 end

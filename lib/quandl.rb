@@ -34,7 +34,7 @@ module Quandl
   end
 
   def add_mail_message(messages)
-    messages.unshift('Please find the following information for the given stock')
+    messages.unshift('Please find the following information for given stock')
     messages.unshift('Hi,')
     messages << ''
     messages << ''

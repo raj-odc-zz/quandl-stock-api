@@ -24,8 +24,8 @@ module Quandl
       end_price = last_stock.close.to_f
       amount, percentage = calculate_return(start_price, end_price)
       "Return: #{amount} [#{percentage}]" \
-        "(#{start_price} on #{format_date(first_stock.date)} ->" \
-        "#{end_price} on #{format_date(last_stock.date)})"
+        " (#{start_price} on #{format_date(first_stock.date)} ->" \
+        " #{end_price} on #{format_date(last_stock.date)})"
     end
 
     def calculate_return(start_value, end_value)
